@@ -1,0 +1,49 @@
+#include <stdlib.h>
+#include "main.h"
+
+/**
+ * *string_nconcat - concatenates n bytes of a string to another string
+ * @s1: string to append to
+ * @s2: string to concatenate from
+ * @n: number of bytes from s2 to concatenate to s1
+ *
+ * This function concatenates n bytes of a string to another string. If n is
+ * greater than or equal to the length of s2, the entire s2 string is appended.
+ * The resulting string is stored in dynamically allocated memory.
+ *
+ * Return: pointer to the resulting string
+ */
+char *string_nconcat(char *s1, char *s2, unsigned int n)
+{
+	char *s;
+	unsigned int i = 0, j = 0, len1 = 0, len2 = 0;
+/* calculate the lengths of s1 and s2 */
+	while (s1 && s1[len1])
+		len1++;
+	while (s2 && s2[len2])
+		len2++;
+/* allocate memory for the resulting string */
+	if (n < len2)
+		s = malloc(sizeof(char) * (len1 + n + 1));
+	else
+		s = malloc(sizeof(char) * (len1 + len2 + 1));
+/* check if the allocation was successful */
+	if (!s)
+		return (NULL);
+/* copy s1 into the resulting string */
+	while (i < len1)
+	{
+		s[i] = s1[i];
+		i++;
+	}
+/* concatenate n bytes of s2 into the resulting string */
+	while (n < len2 && i < (len1 + n))
+		s[i++] = s2[j++];
+/* concatenate the rest of s2 into the resulting string */
+	while (n >= len2 && i < (len1 + len2))
+		s[i++] = s2[j++];
+/* add a null terminator at the end of the resulting string */
+	s[i] = '\0';
+/* return a pointer to the resulting string */
+	return (s);
+}
